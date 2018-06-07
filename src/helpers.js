@@ -12,7 +12,7 @@ export const getArgs = data =>
 
 export const create = (socket, docId) =>
     fs.writeFile(getNotePath(docId), '', err => {
-        if (err) socket.write('401\r\n');
+        if (err) return socket.write('404\r\n');
         socket.write('200\r\n');
     });
 
@@ -31,14 +31,14 @@ export const insert = (socket, docId, position, text) => {
         });
     }
     fs.appendFile(getNotePath(docId), position || '', err => {
-        if (err) socket.write('404\r\n');
+        if (err) return socket.write('404\r\n');
         socket.write('200\r\n');
     });
 };
 
 export const remove = (socket, docId) =>
     fs.unlink(getNotePath(docId), err => {
-        if (err) socket.write('404\r\n');
+        if (err) return socket.write('404\r\n');
         socket.write('200\r\n');
     });
 
