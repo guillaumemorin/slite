@@ -15,11 +15,16 @@
         "start": "npm run build;node dist/index.js",
         "test": "jest ./test.js"
     },
-    "keywords": ["Slite", "dev", "test"],
+    "keywords": [
+        "Slite",
+        "dev",
+        "test"
+    ],
     "author": "Slite Team",
     "license": "ISC",
     "dependencies": {
-        "jest": "^23.1.0"
+        "jest": "^23.1.0",
+        "underscore.string": "^3.3.4"
     },
     "devDependencies": {
         "babel-cli": "^6.26.0",

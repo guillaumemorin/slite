@@ -1,27 +1,20 @@
-// Your code goes here
 import net from 'net';
+import {getArgs, insert, get, create, remove} from './helpers';
 
 const commands = {
-    create: () => console.log('create!!'),
-    insert: () => console.log('insert!!'),
-    delete: () => console.log('delete!!'),
-    get: () => console.log('get!!')
+    create: (socket, docId) => create(socket, docId),
+    insert: (socket, docId, position, text) =>
+        insert(socket, docId, position, text),
+    delete: (socket, docId) => remove(socket, docId),
+    get: (socket, docId, type) => get(socket, docId, type)
 };
 
-const getData = data =>
-    data
-        .toString()
-        .replace(/(\r\n\t|\n|\r\t)/gm, '')
-        .split(':');
-
 const server = net.createServer(socket => {
-    socket.write('TCP server running ... \r\n');
-    socket.pipe(socket);
     socket.on('data', data => {
-        const [cmd, id, position, text] = getData(data);
-        if (!Object.keys(commands).includes(cmd))
-            return socket.write('=> Unrecognized command \n');
-        commands[cmd]();
+        const [cmd, id, ...rest] = getArgs(data);
+        if (!commands[cmd]) return socket.write('=> Unrecognized command \n');
+        if (!id) return socket.write('=> You must provide a note id \n');
+        commands[cmd](socket, id, ...rest);
     });
 });
 
