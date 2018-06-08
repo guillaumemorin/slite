@@ -14,7 +14,7 @@ const getNoteStylePath = docId =>
 export const getArgs = data =>
     data
         .toString('utf8')
-        .replace(/(\r\n\t|\n|\r\t)/gm, '')
+        .replace(/\n$/, '')
         .split(':');
 
 export const create = (socket, docId) =>
