@@ -59,7 +59,8 @@ export const remove = (socket, docId) =>
 export const get = (socket, docId, type = 'txt') => {
     fs.readFile(getNotePath(docId), (err, txt) => {
         if (err) return socket.write('404\r\n');
-        if (type === 'txt') return socket.write(`${txt}\r\n`);
+        if (type === 'txt')
+            return socket.write(`${txt.toString().replace('\\n', '\n')}\r\n`);
         fs.readFile(getNoteStylePath(docId), (err, styles) => {
             if (err) return socket.write('404\r\n');
             const formatted = Object.values(JSON.parse(styles)).reduce(
@@ -82,7 +83,7 @@ export const get = (socket, docId, type = 'txt') => {
                     }, acc),
                 txt.toString()
             );
-            socket.write(`${formatted}\r\n`);
+            socket.write(`${formatted.toString().replace('\\n', '\n')}\r\n`);
         });
     });
 };
