@@ -31,22 +31,25 @@ export const create = (socket, docId) =>
     });
 
 export const insert = (socket, docId, position, text) => {
-    if (text) {
-        return fs.readFile(getNotePath(docId), (err, data) => {
-            if (err) return socket.write('404\r\n');
-            fs.writeFile(
-                getNotePath(docId),
-                _insert(data, position, text),
-                err => {
-                    if (err) socket.write('404\r\n');
-                    socket.write('200\r\n');
-                }
-            );
-        });
-    }
-    fs.appendFile(getNotePath(docId), position || '', err => {
+    fs.stat(getNotePath(docId), err => {
         if (err) return socket.write('404\r\n');
-        socket.write('200\r\n');
+        if (text) {
+            return fs.readFile(getNotePath(docId), (err, data) => {
+                if (err) return socket.write('404\r\n');
+                fs.writeFile(
+                    getNotePath(docId),
+                    _insert(data, position, text),
+                    err => {
+                        if (err) socket.write('404\r\n');
+                        socket.write('200\r\n');
+                    }
+                );
+            });
+        }
+        fs.appendFile(getNotePath(docId), position || '', err => {
+            if (err) return socket.write('404\r\n');
+            socket.write('200\r\n');
+        });
     });
 };
 
