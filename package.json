@@ -13,7 +13,8 @@
         "watch": "npm-watch",
         "build": "babel -d dist/ src/",
         "start": "npm run build;node dist/index.js",
-        "test": "jest ./test.js"
+        "test": "jest ./test.js",
+        "postinstall": "mkdir ./notes"
     },
     "keywords": [
         "Slite",

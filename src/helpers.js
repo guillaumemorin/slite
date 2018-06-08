@@ -7,9 +7,9 @@ const STYLE_TEMPLATE = {
     italic: {symbol: '*', positions: []}
 };
 
-const getNotePath = docId => path.join(__dirname, `../doc/${docId}`);
+const getNotePath = docId => path.join(__dirname, `../notes/${docId}`);
 const getNoteStylePath = docId =>
-    path.join(__dirname, `../doc/${docId}_style.json`);
+    path.join(__dirname, `../notes/${docId}_style.json`);
 
 export const getArgs = data =>
     data
