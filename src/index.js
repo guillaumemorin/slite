@@ -1,12 +1,14 @@
 import net from 'net';
-import {getArgs, insert, get, create, remove} from './helpers';
+import {getArgs, insert, get, create, remove, format} from './helpers';
 
 const commands = {
     create: (socket, docId) => create(socket, docId),
     insert: (socket, docId, position, text) =>
         insert(socket, docId, position, text),
     delete: (socket, docId) => remove(socket, docId),
-    get: (socket, docId, type) => get(socket, docId, type)
+    get: (socket, docId, type) => get(socket, docId, type),
+    format: (socket, docId, start, end, style) =>
+        format(socket, docId, start, end, style)
 };
 
 const server = net.createServer(socket => {

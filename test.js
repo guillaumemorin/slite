@@ -50,12 +50,12 @@ describe('Slite 1986 Test', function() {
     });
 
     describe('insert', function() {
-        // it('returns a 404 if doc has not been created', async function() {
-        //     const docId = generateDocId();
-        //     await runCommand(`insert:${docId}:Hello`);
-        //     const resp = await runCommand(`get:${docId}:txt`);
-        //     expect(resp).toEqual('404\r\n');
-        // });
+        it('returns a 404 if doc has not been created', async function() {
+            const docId = generateDocId();
+            await runCommand(`insert:${docId}:Hello`);
+            const resp = await runCommand(`get:${docId}:txt`);
+            expect(resp).toEqual('404\r\n');
+        });
 
         it('inserts content at first position', async function() {
             const docId = generateDocId();
@@ -90,19 +90,19 @@ describe('Slite 1986 Test', function() {
         it('formats a document in bold', async function() {
             const docId = generateDocId();
             await runCommand(`create:${docId}`);
-            await runCommand(`insert:${docId}:Hello World!\n`);
+            await runCommand(`insert:${docId}:Hello World!`);
             await runCommand(`format:${docId}:0:5:bold`);
             const resp = await runCommand(`get:${docId}:md`);
-            expect(resp).toEqual('**Hello** World!\n\r\n');
+            expect(resp).toEqual('**Hello** World!\r\n');
         });
 
         it('formats a document in italic', async function() {
             const docId = generateDocId();
             await runCommand(`create:${docId}`);
-            await runCommand(`insert:${docId}:Hello World!\n`);
+            await runCommand(`insert:${docId}:Hello World!`);
             await runCommand(`format:${docId}:0:5:italic`);
             const resp = await runCommand(`get:${docId}:md`);
-            expect(resp).toEqual('*Hello* World!\n\r\n');
+            expect(resp).toEqual('*Hello* World!\r\n');
         });
 
         it('formats a document while maintaining text intact', async function() {
@@ -113,7 +113,7 @@ describe('Slite 1986 Test', function() {
             await runCommand(`insert:${docId}:5: World!`);
 
             const respmd = await runCommand(`get:${docId}:md`);
-            expect(respmd).toEqual('*Hello* World!\n\r\n');
+            expect(respmd).toEqual('*Hello* World!\r\n');
 
             const resptxt = await runCommand(`get:${docId}:txt`);
             expect(resptxt).toEqual('Hello World!\r\n');
